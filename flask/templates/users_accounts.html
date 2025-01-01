@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users Accounts</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Đổi màu viền của bảng thành màu đen */
+        table.table {
+            border: 2px solid black !important; /* Viền ngoài của bảng */
+        }
+
+        /* Đổi màu viền cho từng ô trong bảng thành màu đen */
+        table.table td, table.table th {
+            border: 1px solid black !important; /* Viền giữa các ô của bảng */
+        }
+        /* Basic styling for autocomplete */
+        .autocomplete-suggestions {
+            border: 1px solid #ccc;
+            background: #fff;
+            position: absolute;
+            z-index: 9999;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .autocomplete-suggestion {
+            padding: 5px;
+            cursor: pointer;
+        }
+        .autocomplete-suggestion:hover {
+            background: #e0e0e0;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> 
+</head>
+
+
+<body>
+    <div class="container-fluid">
+        <h1 class="mt-5">Users Accounts</h1>
+        <!-- Nút Logout -->
+        <button id="logout-btn" class="btn btn-danger mb-3">Logout</button>
+        <button id="duplicate-users-btn" class="btn btn-danger mb-3">Duplicate user</button>
+        <div>
+            <span>Page {{ page }} of {{ total_pages }}</span>
+        </div>
+        <div>
+            <!-- dis play home page  -->
+            {% if page > 6 %}
+            <a href="{{ url_for('users_accounts', page = 1)}}">Home</a>
+            {% endif %}
+            <!-- Display Previous Page link -->
+            {% if page > 1 %}
+            <a href="{{ url_for('users_accounts', page=page-1) }}">Previous</a>
+            {% endif %}
+            
+            <!-- Show limited page numbers -->
+            {% set start_page = (page - 5) if (page - 5) > 1 else 1 %}
+            {% set end_page = (page + 5) if (page + 5) < total_pages else total_pages %}
+        
+            {% for p in range(start_page, end_page + 1) %}
+                {% if p == page %}
+                    <span><strong>{{ p }}</strong></span>  <!-- Current page -->
+                {% else %}
+                    <a href="{{ url_for('users_accounts', page=p) }}">{{ p }}</a>
+                {% endif %}
+            {% endfor %}
+            
+            <!-- Display Next Page link -->
+            {% if page < total_pages %}
+            <a href="{{ url_for('users_accounts', page=page+6) }}">Next</a>
+            {% endif %}
+            <!-- Display Last Page link -->
+            {% if total_pages > 1 %}
+            <a href="{{ url_for('users_accounts', page=total_pages) }}">Last Page</a>
+            {% endif %}
+        </div>
+        
+
+        <!-- Search Bar -->
+        <form id="search-form" action="{{ url_for('main.search_users') }}" method="POST" style="position: relative;">
+            <input type="text" id="user-search" name="search_query" placeholder="Search for users..." autocomplete="off">
+            <button type="submit">Search</button>
+            <div id="suggestions" class="autocomplete-suggestions"></div>
+        </form>
+
+        <table class="table table-bordered mt-3">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th>Phone</th>
+                    <th>Address</th>
+                    <th>Expire Date</th>
+                    <th>Uuid</th>
+                    <th>Inforuser</th>
+                    <th>Times Approval</th>
+                    <th>Notes</th>
+                    <th>Actions</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for customer in customers %}
+                <tr>
+                    <td>{{ customer.id }}</td>
+                    <td contenteditable="true">{{ customer.username }}</td>
+                    <td contenteditable="true">{{ customer.password }}</td>
+                    <td contenteditable="true">{{ customer.phone }}</td>
+                    <td contenteditable="true">{{ customer.address }}</td>
+                    <td contenteditable="true">{{ customer.expdate }}</td>
+                    <td contenteditable="true">{{ customer.uuid }}</td>
+                    <td contenteditable="true">{{ customer.inforuser }}</td>
+                    <td contenteditable="true">{{ customer.timesapproval }}</td>
+                    <td contenteditable="true">{{ customer.notes }}</td>
+                    <td>
+                        <button class="btn btn-success btn-sm update-btn" data-id="{{ customer.id }}">Update</button>
+                    </td>
+                    <td>
+                        <button class="btn btn-danger btn-sm delete-btn" data-id="{{ customer.id }}">Delete</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Xử lý sự kiện Logout
+        $(document).on('click', '#logout-btn', function() {
+            window.location.href = '/logout'; // Chuyển hướng đến trang logout
+        });
+        $(document).on('click', '#duplicate-users-btn', function() {
+                window.location.href = '/duplicate_users';
+            });
+        // Xử lý sự kiện Update
+        $(document).on('click', '.update-btn', function() {
+            var id = $(this).data('id');
+            var row = $(this).closest('tr');
+            var username = row.find('td:eq(1)').text();
+            var password = row.find('td:eq(2)').text();
+            var phone = row.find('td:eq(3)').text();
+            var address = row.find('td:eq(4)').text();
+            var expdate = row.find('td:eq(5)').text();
+            var uuid = row.find('td:eq(6)').text();
+            var inforuser = row.find('td:eq(7)').text();
+            var timesapproval = row.find('td:eq(8)').text();
+            var notes = row.find('td:eq(9)').text();
+
+            // Gửi yêu cầu AJAX cập nhật dữ liệu
+            $.ajax({
+                url: '/update_customer',
+                method: 'POST',
+                data: {
+                    id: id,
+                    username: username,
+                    password: password,
+                    phone: phone,
+                    address: address,
+                    expdate: expdate,
+                    uuid: uuid,
+                    inforuser: inforuser,
+                    timesapproval: timesapproval,
+                    notes: notes
+                },
+                success: function(response) {
+                    alert('Update thành công!');
+                },
+                error: function() {
+                    alert('Có lỗi xảy ra khi cập nhật.');
+                }
+            });
+        });
+
+        // Xử lý sự kiện Delete
+        $(document).on('click', '.delete-btn', function() {
+            var id = $(this).data('id');
+
+            if (confirm('Bạn có chắc muốn xóa người dùng này không?')) {
+                // Gửi yêu cầu AJAX xóa dữ liệu
+                $.ajax({
+                    url: '/delete_customer',
+                    method: 'POST',
+                    data: { id: id },
+                    success: function(response) {
+                        alert('Xóa thành công!');
+                        location.reload(); // Tải lại trang sau khi xóa thành công
+                    },
+                    error: function() {
+                        alert('Có lỗi xảy ra khi xóa.');
+                    }
+                });
+            }
+        });
+
+
+        $(document).ready(function() {
+            $('#user-search').on('input', function() {
+                const query = $(this).val();
+                if (query.length >= 1) {
+                    $.ajax({
+                        url: '/search/suggestions',
+                        data: { q: query },
+                        success: function(data) {
+                            $('#suggestions').empty();
+                            data.forEach(function(suggestion) {
+                                $('#suggestions').append(
+                                    `<div class="autocomplete-suggestion">${suggestion}</div>`
+                                );
+                            });
+                        }
+                    });
+                } else {
+                    $('#suggestions').empty(); // Clear suggestions if input is empty
+                }
+            });
+
+            // Handle click on suggestion
+            $(document).on('click', '.autocomplete-suggestion', function() {
+                $('#user-search').val($(this).text()); // Set the input value to the suggestion
+                $('#suggestions').empty(); // Clear suggestions after selection
+            });
+
+            // Close suggestions when clicking outside
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest('#suggestions, #user-search').length) {
+                    $('#suggestions').empty(); // Clear suggestions
+                }
+            });
+        });
+    </script>
+</body>
+</html>

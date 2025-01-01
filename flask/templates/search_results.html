@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <h1>Search Results</h1>
+
+        <!-- User Table -->
+        <table class="table table-bordered mt-3">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th>Phone</th>
+                    <th>Address</th>
+                    <th>Expire Date</th>
+                    <th>Uuid</th>
+                    <th>Inforuser</th>
+                    <th>Times Approval</th>
+                    <th>Notes</th>
+                    <th>Actions</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for customer in users %}
+                <tr>
+                    <td>{{ customer.id }}</td>
+                    <td contenteditable="true">{{ customer.username }}</td>
+                    <td contenteditable="true">{{ customer.password }}</td>
+                    <td contenteditable="true">{{ customer.phone }}</td>
+                    <td contenteditable="true">{{ customer.address }}</td>
+                    <td contenteditable="true">{{ customer.expdate }}</td>
+                    <td contenteditable="true">{{ customer.uuid }}</td>
+                    <td contenteditable="true">{{ customer.inforuser }}</td>
+                    <td contenteditable="true">{{ customer.timesapproval }}</td>
+                    <td contenteditable="true">{{ customer.notes }}</td>
+                    <td>
+                        <button class="btn btn-success btn-sm update-btn" data-id="{{ customer.id }}">Update</button>
+                    </td>
+                    <td>
+                        <button class="btn btn-danger btn-sm delete-btn" data-id="{{ customer.id }}">Delete</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div>
+            <a href="{{ url_for('main.list_users_accounts', page=1) }}">Back to User List</a>
+        </div>
+    </div>
+
+    <script>
+        // Xử lý sự kiện Logout
+        $(document).on('click', '#logout-btn', function() {
+            window.location.href = '/logout'; // Chuyển hướng đến trang logout
+        });
+        // Xử lý sự kiện Update
+        $(document).on('click', '.update-btn', function() {
+            var id = $(this).data('id');
+            var row = $(this).closest('tr');
+            var username = row.find('td:eq(1)').text();
+            var password = row.find('td:eq(2)').text();
+            var phone = row.find('td:eq(3)').text();
+            var address = row.find('td:eq(4)').text();
+            var expdate = row.find('td:eq(5)').text();
+            var uuid = row.find('td:eq(6)').text();
+            var inforuser = row.find('td:eq(7)').text();
+            var timesapproval = row.find('td:eq(8)').text();
+            var notes = row.find('td:eq(9)').text();
+
+            // Gửi yêu cầu AJAX cập nhật dữ liệu
+            $.ajax({
+                url: '/update_customer',
+                method: 'POST',
+                data: {
+                    id: id,
+                    username: username,
+                    password: password,
+                    phone: phone,
+                    address: address,
+                    expdate: expdate,
+                    uuid: uuid,
+                    inforuser: inforuser,
+                    timesapproval: timesapproval,
+                    notes: notes
+                },
+                success: function(response) {
+                    alert('Update thành công!');
+                },
+                error: function() {
+                    alert('Có lỗi xảy ra khi cập nhật.');
+                }
+            });
+        });
+
+        // Xử lý sự kiện Delete
+        $(document).on('click', '.delete-btn', function() {
+            var id = $(this).data('id');
+
+            if (confirm('Bạn có chắc muốn xóa người dùng này không?')) {
+                // Gửi yêu cầu AJAX xóa dữ liệu
+                $.ajax({
+                    url: '/delete_customer',
+                    method: 'POST',
+                    data: { id: id },
+                    success: function(response) {
+                        alert('Xóa thành công!');
+                        location.reload(); // Tải lại trang sau khi xóa thành công
+                    },
+                    error: function() {
+                        alert('Có lỗi xảy ra khi xóa.');
+                    }
+                });
+            }
+        });
+
+    </script>
+</body>
+</html>

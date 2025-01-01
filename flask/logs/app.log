@@ -1,0 +1,41 @@
+2025-01-01 11:23:08,869 - INFO - Application has started.
+2025-01-01 11:23:09,035 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-01-01 11:23:09,035 - INFO - [33mPress CTRL+C to quit[0m
+2025-01-01 11:23:09,036 - INFO -  * Restarting with stat
+2025-01-01 11:23:09,339 - INFO - Application has started.
+2025-01-01 11:23:09,431 - WARNING -  * Debugger is active!
+2025-01-01 11:23:09,435 - INFO -  * Debugger PIN: 141-337-855
+2025-01-01 11:23:14,526 - INFO - 127.0.0.1 - - [01/Jan/2025 11:23:14] "GET /users_accounts/1 HTTP/1.1" 200 -
+2025-01-01 11:23:22,221 - INFO - Application has started.
+2025-01-01 11:23:22,330 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-01-01 11:23:22,330 - INFO - [33mPress CTRL+C to quit[0m
+2025-01-01 11:23:22,332 - INFO -  * Restarting with stat
+2025-01-01 11:23:22,716 - INFO - Application has started.
+2025-01-01 11:23:22,817 - WARNING -  * Debugger is active!
+2025-01-01 11:23:22,822 - INFO -  * Debugger PIN: 141-337-855
+2025-01-01 11:23:22,851 - INFO - 127.0.0.1 - - [01/Jan/2025 11:23:22] "GET /users_accounts/1 HTTP/1.1" 200 -
+2025-01-01 11:23:23,817 - INFO - 127.0.0.1 - - [01/Jan/2025 11:23:23] "GET /users_accounts/1 HTTP/1.1" 200 -
+2025-01-01 11:23:24,862 - INFO - 127.0.0.1 - - [01/Jan/2025 11:23:24] "GET /users_accounts/1 HTTP/1.1" 200 -
+2025-01-01 11:23:25,671 - INFO - 127.0.0.1 - - [01/Jan/2025 11:23:25] "GET /users_accounts/1 HTTP/1.1" 200 -
+2025-01-01 11:23:26,561 - INFO - 127.0.0.1 - - [01/Jan/2025 11:23:26] "GET /users_accounts/1 HTTP/1.1" 200 -
+2025-01-01 11:23:28,418 - INFO - 127.0.0.1 - - [01/Jan/2025 11:23:28] "GET /duplicate_users HTTP/1.1" 200 -
+2025-01-01 11:23:50,180 - INFO -  * Detected change in 'D:\\DATA2\\REALJOB\\KIOTVN\\web_api\\flask\\flask\\app.py', reloading
+2025-01-01 11:23:50,239 - INFO -  * Restarting with stat
+2025-01-01 11:23:50,638 - INFO - Application has started.
+2025-01-01 11:23:50,732 - WARNING -  * Debugger is active!
+2025-01-01 11:23:50,738 - INFO -  * Debugger PIN: 141-337-855
+2025-01-01 11:23:54,807 - INFO -  * Detected change in 'D:\\DATA2\\REALJOB\\KIOTVN\\web_api\\flask\\flask\\app.py', reloading
+2025-01-01 11:23:54,851 - INFO -  * Restarting with stat
+2025-01-01 11:23:55,157 - INFO - Application has started.
+2025-01-01 11:23:55,263 - WARNING -  * Debugger is active!
+2025-01-01 11:23:55,268 - INFO -  * Debugger PIN: 141-337-855
+2025-01-01 11:24:19,386 - INFO - User 12324 registered successfully. Date: 2025-01-01
+2025-01-01 11:24:19,387 - INFO - 127.0.0.1 - - [01/Jan/2025 11:24:19] "POST /register HTTP/1.1" 200 -
+2025-01-01 11:24:24,529 - INFO - 127.0.0.1 - - [01/Jan/2025 11:24:24] "POST /register HTTP/1.1" 200 -
+2025-01-01 11:24:28,019 - INFO - 127.0.0.1 - - [01/Jan/2025 11:24:28] "POST /login HTTP/1.1" 200 -
+2025-01-01 11:24:39,847 - INFO - User 123 registered successfully. Date: 2025-01-01
+2025-01-01 11:24:39,848 - INFO - 127.0.0.1 - - [01/Jan/2025 11:24:39] "POST /register HTTP/1.1" 200 -
+2025-01-01 11:24:42,931 - INFO - User 123 logged in successfully. Date: 2025-01-01
+2025-01-01 11:24:42,931 - INFO - 127.0.0.1 - - [01/Jan/2025 11:24:42] "POST /login HTTP/1.1" 200 -

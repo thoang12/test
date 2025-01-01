@@ -1,0 +1,28 @@
+services:
+  flaskapp:
+    build: ./flask
+    container_name: flaskapp2
+    network_mode: host
+    volumes:
+      - ./flask/logs:/app/logs  
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    restart: always
+  # Service Nginx
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    environment:
+      - SERVER_NAME=0.0.0.0
+    restart: always
+    network_mode: host
+    volumes:
+      - ./nginx/logs:/var/log/nginx 
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
